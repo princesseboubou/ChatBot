@@ -106,6 +106,7 @@ function callSendAPI(messageData) {
     json: messageData
 
   }, function (error, response, body) {
+    if (!error) {
       console.log("Success");
     } else {
       console.error("Unable to send message.");
