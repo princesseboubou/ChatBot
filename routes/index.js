@@ -1,6 +1,7 @@
 var express = require('express');
 var config = require('config');
 var router = express.Router();
+var chatService = require('../server/chatService')
 
 /* GET hello world page. */
 router.get('/', function(req, res, next) {
@@ -23,6 +24,7 @@ router.post('/webhook', (req, res) => {
       // will only ever contain one message, so we get index 0
       var webhook_event = entry.messaging[0];
       console.log(webhook_event);
+      chatService.receivedMessage(webhook_event);
     });
 
     // Returns a '200 OK' response to all requests
@@ -35,7 +37,6 @@ router.post('/webhook', (req, res) => {
 });
 
 router.get('/webhook', (req, res) => {
-
   // Parse the query params
   var mode = req.query['hub.mode'];
   var token = req.query['hub.verify_token'];
@@ -56,63 +57,9 @@ router.get('/webhook', (req, res) => {
       res.sendStatus(403);
     }
   }
+  res.sendStatus(200);
 });
 
-// Creates the endpoint for our webhook
-router.post('/webhook', (req, res) => {
-
-  var body = req.body;
-
-  // Checks this is an event from a page subscription
-  if (body.object === 'page') {
-    console.log('q');
-    // Iterates over each entry - there may be multiple if batched
-    body.entry.forEach(function(entry) {
-      console.log('w');
-
-      // Gets the message. entry.messaging is an array, but
-      // will only ever contain one message, so we get index 0
-      var event = entry.messaging[0];
-
-      var senderID = event.sender.id;
-      var message = event.message;
-
-      var messageData = {
-        recipient: {
-          id: senderID
-        },
-        message: {
-          text: message
-        }
-      };
-
-      callSendAPI(messageData);
-    });
-
-    // Returns a '200 OK' response to all requests
-    res.status(200).send('EVENT_RECEIVED');
-  } else {
-    // Returns a '404 Not Found' if event is not from a page subscription
-    res.sendStatus(404);
-  }
-
-});
-
-function callSendAPI(messageData) {
-  request({
-    uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: config.pageAccessToken },
-    method: 'POST',
-    json: messageData
-
-  }, function (error, response, body) {
-    if (!error) {
-      console.log("Success");
-    } else {
-      console.error("Unable to send message.");
-    }
-  });
-}
 
 
 module.exports = router;
