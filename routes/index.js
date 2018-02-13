@@ -73,21 +73,21 @@ router.post('/webhook', (req, res) => {
 
       // Gets the message. entry.messaging is an array, but
       // will only ever contain one message, so we get index 0
-      var event = entry.messaging[0];
-
-      var senderID = event.sender.id;
-      var message = event.message;
-
-      var messageData = {
-        recipient: {
-          id: senderID
-        },
-        message: {
-          text: message
-        }
-      };
-
-      chatService.callSendAPI(messageData);
+      // var event = entry.messaging[0];
+      //
+      // var senderID = event.sender.id;
+      // var message = event.message;
+      //
+      // var messageData = {
+      //   recipient: {
+      //     id: senderID
+      //   },
+      //   message: {
+      //     text: message
+      //   }
+      // };
+      //
+      // chatService.callSendAPI(messageData);
     });
 
     // Returns a '200 OK' response to all requests
