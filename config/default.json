@@ -2,6 +2,6 @@
   "serverUrl": "<insert your server url here>",
   "weatherApiToken": "<insert your weather api token here>",
   "googleApiToken": "<insert your google geolocalisation api token here>",
-  "pageAccessToken": "<insert your facebook page token here>",
+  "pageAccessToken": "EAACmPRQ42vYBAKOkqciUZC8iyy6NZCZAD2mplxSMU5nV6PKqxZBgTbnh8hxfnHcigyBZACB3gp4BbjlUJ5FW1kT29tn1UuHyBtUnCKU6GuY7lqGNYrHrAqzZAnPwFnLBBZA6Vs2esEIQiABtJXUNfyk5DncBukWUYY0Xawts7bkhQZDZD",
   "validationToken": "GatsbyLeMagnifique"
 }
