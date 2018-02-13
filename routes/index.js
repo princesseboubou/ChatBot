@@ -1,7 +1,6 @@
 var express = require('express');
 var config = require('config');
 var router = express.Router();
-var chatService = require('../server/chatService');
 
 /* GET hello world page. */
 router.get('/', function(req, res, next) {
@@ -73,21 +72,21 @@ router.post('/webhook', (req, res) => {
 
       // Gets the message. entry.messaging is an array, but
       // will only ever contain one message, so we get index 0
-      // var event = entry.messaging[0];
-      //
-      // var senderID = event.sender.id;
-      // var message = event.message;
-      //
-      // var messageData = {
-      //   recipient: {
-      //     id: senderID
-      //   },
-      //   message: {
-      //     text: message
-      //   }
-      // };
-      //
-      // chatService.callSendAPI(messageData);
+      var event = entry.messaging[0];
+
+      var senderID = event.sender.id;
+      var message = event.message;
+
+      var messageData = {
+        recipient: {
+          id: senderID
+        },
+        message: {
+          text: message
+        }
+      };
+
+      callSendAPI(messageData);
     });
 
     // Returns a '200 OK' response to all requests
@@ -98,5 +97,21 @@ router.post('/webhook', (req, res) => {
   }
 
 });
+
+function callSendAPI(messageData) {
+  request({
+    uri: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: { access_token: config.pageAccessToken },
+    method: 'POST',
+    json: messageData
+
+  }, function (error, response, body) {
+      console.log("Success");
+    } else {
+      console.error("Unable to send message.");
+    }
+  });
+}
+
 
 module.exports = router;
