@@ -66,9 +66,10 @@ router.post('/webhook', (req, res) => {
 
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
-
+    console.log('q');
     // Iterates over each entry - there may be multiple if batched
     body.entry.forEach(function(entry) {
+      console.log('w');
 
       // Gets the message. entry.messaging is an array, but
       // will only ever contain one message, so we get index 0

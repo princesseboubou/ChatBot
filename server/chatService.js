@@ -13,6 +13,7 @@ const VALIDATION_TOKEN = (process.env.MESSENGER_VALIDATION_TOKEN) ?
   config.get('validationToken');
 
 function receivedMessage(event) {
+  console.log(1);
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
   var timeOfMessage = event.timestamp;
@@ -43,6 +44,7 @@ function sendGenericMessage(recipientId, messageText) {
 }
 
 function sendTextMessage(recipientId, messageText) {
+  console.log(2);
   var messageData = {
     recipient: {
       id: recipientId
